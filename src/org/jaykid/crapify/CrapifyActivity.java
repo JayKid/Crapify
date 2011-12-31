@@ -58,7 +58,7 @@ public class CrapifyActivity extends Activity {
     	String moneyIncrement = prefs.getString("moneyIncrement", UNDEFINED_STRING);
 		preferencesEditor.putInt("savedMoneyAmount", totalSum+integerize(moneyIncrement));
 		preferencesEditor.apply();
-		moneySavedDisplayer.setText(Integer.toString(totalSum+integerize(moneyIncrement))+" €");
+		refreshMoneySavedDisplayer(moneySavedDisplayer);
     }
 
 	private int integerize(String moneyIncrement) {
@@ -90,12 +90,14 @@ public class CrapifyActivity extends Activity {
     	return true;
     }
 
+    private void resetAmountOfMoneySaved(Editor preferencesEditor) {
+    	preferencesEditor.putInt("savedMoneyAmount", 0);
+    	preferencesEditor.apply();
+    }
+    
 	private void refreshMoneySavedDisplayer(TextView moneySavedDisplayer) {
-		moneySavedDisplayer.setText("0 €");
-	}
-
-	private void resetAmountOfMoneySaved(Editor preferencesEditor) {
-		preferencesEditor.putInt("savedMoneyAmount", 0);
-		preferencesEditor.apply();
+    	prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    	int moneySaved = prefs.getInt("savedMoneyAmount", UNDEFINED_INT);
+		moneySavedDisplayer.setText(Integer.toString(moneySaved)+" €");
 	}
 }
