@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<!--     <PreferenceCategory android:title="Categoría 1"> -->
+<!--     </PreferenceCategory> -->
+<!--         <CheckBoxPreference -->
+<!--             android:key="+id/@moneyIncrementPref" -->
+<!--             android:title="Preferencia 1" -->
+<!--             android:summary="Descripción de la preferencia 1" /> -->
+        <EditTextPreference
+            android:key="moneyIncrement"
+            android:title="@string/moneyIncrementPref"
+            android:summary="@string/moneyIncrementDescription"
+            android:dialogTitle="@string/moneyIncrementSetter"
+            android:inputType="number"
+            android:numeric="integer" />
+<!--         <ListPreference -->
+<!--             android:key="opcion3" -->
+<!--             android:title="Preferencia 3" -->
+<!--             android:summary="Descripción de la preferencia 3" -->
+<!--             android:dialogTitle="Indicar Pais" -->
+<!--             android:entries="@array/pais" -->
+<!--             android:entryValues="@array/codigopais" /> -->
+</PreferenceScreen>

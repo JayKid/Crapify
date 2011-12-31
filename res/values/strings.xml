@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="amountOfMoney">You have saved: </string>
+    <string name="setPreferencesMenu">Set Preferences</string>
+    <string name="resetMoneyMenu">Reset Money</string>
+    <string name="moneyIncrementPref">Set money increment</string>
+    <string name="moneyIncrementSetter">Insert a number</string>
+    <string name="moneyIncrementDescription">The amount of money that will be added every time you say something you should not</string>
+    <string name="app_name">Crapify</string>
+
+</resources>
