@@ -9,7 +9,10 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class CrapifyActivity extends Activity {
@@ -24,6 +27,36 @@ public class CrapifyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         initializeConfig();
+        
+        final ImageButton crapButton = (ImageButton)findViewById(R.id.ICrappedHome);
+    	crapButton.setImageResource(R.drawable.button_normal);
+
+    	crapButton.setOnTouchListener(new OnTouchListener() {
+    		@Override
+    	    public boolean onTouch(View v, MotionEvent event) {
+    	        if (event.getAction() == MotionEvent.ACTION_DOWN ) {
+    	        	
+    	        	Editor preferencesEditor = prefs.edit();
+    	        	TextView moneySavedDisplayer = (TextView)findViewById(R.id.amountOfMoneyHome);
+    	        	prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+    	        	int moneySaved = prefs.getInt("savedMoneyAmount", UNDEFINED_INT);
+    	        	if (moneySaved == UNDEFINED_INT) moneySaved = NO_MONEY;
+    	        	String moneyIncrement = prefs.getString("moneyIncrement", UNDEFINED_STRING);
+    	    		preferencesEditor.putInt("savedMoneyAmount", moneySaved+integerize(moneyIncrement));
+    	    		preferencesEditor.apply();
+    	    		refreshMoneySavedDisplayer(moneySavedDisplayer);
+    	        	
+    	    		crapButton.setImageResource(R.drawable.button_pressed);
+    	        }
+    	         else if (event.getAction() == MotionEvent.ACTION_UP ) {
+    	        	 crapButton.setImageResource(R.drawable.button_normal);
+    	        }
+
+    	        return false;
+    	    }
+
+    	});
+        
     }
     
     private void initializeConfig() {
@@ -45,8 +78,8 @@ public class CrapifyActivity extends Activity {
 	private void initializeAmountOfMoneySavedOnMainScreen(TextView moneySavedDisplayer) {
 		String textSumOfMoney;
 		int moneySaved = prefs.getInt("savedMoneyAmount", UNDEFINED_INT);
-    	if (moneySaved == UNDEFINED_INT) textSumOfMoney = "You have not started insulting yet!";
-    	else textSumOfMoney = Integer.toString(moneySaved)+" €";
+    	if (moneySaved == UNDEFINED_INT) textSumOfMoney = "You have not started insulting yet! Press the pig to start saving!";
+    	else textSumOfMoney = Integer.toString(moneySaved)+" â‚¬";
     	moneySavedDisplayer.setText(textSumOfMoney);
 	}
 
@@ -100,6 +133,7 @@ public class CrapifyActivity extends Activity {
 	private void refreshMoneySavedDisplayer(TextView moneySavedDisplayer) {
     	prefs = PreferenceManager.getDefaultSharedPreferences(this);
     	int moneySaved = prefs.getInt("savedMoneyAmount", UNDEFINED_INT);
-		moneySavedDisplayer.setText(Integer.toString(moneySaved)+" €");
+		moneySavedDisplayer.setText(Integer.toString(moneySaved)+" â‚¬");
 	}
+	
 }

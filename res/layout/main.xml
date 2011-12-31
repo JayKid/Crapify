@@ -3,13 +3,13 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" 
-    android:background="#0cc0a4">
+    android:background="@drawable/radialback">
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/amountOfMoney" 
-        android:textColor="#ff0"/>
+        android:textColor="#f5f5f5"/>
     
     <TextView
             android:id="@+id/amountOfMoneyHome"
@@ -18,12 +18,13 @@
             android:text="X"
             android:textAppearance="?android:attr/textAppearanceLarge" />
     
-     <Button
+     <ImageButton
         android:id="@+id/ICrappedHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="$@#!"
         android:textColor="#fff"
-        android:onClick="onICrappedClick" />
+        android:src="@drawable/button_normal"
+        android:background="@null" />
 
 </LinearLayout>
