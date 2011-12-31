@@ -16,6 +16,7 @@ public class CrapifyActivity extends Activity {
 	
 	static final String UNDEFINED_STRING = "-1";
 	static final int UNDEFINED_INT = -1;
+	static final int NO_MONEY = 0;
 	private SharedPreferences prefs;
 	
     @Override
@@ -54,9 +55,10 @@ public class CrapifyActivity extends Activity {
     	Editor preferencesEditor = prefs.edit();
     	TextView moneySavedDisplayer = (TextView)findViewById(R.id.amountOfMoneyHome);
     	prefs = PreferenceManager.getDefaultSharedPreferences(this);
-    	int totalSum = prefs.getInt("savedMoneyAmount", UNDEFINED_INT);
+    	int moneySaved = prefs.getInt("savedMoneyAmount", UNDEFINED_INT);
+    	if (moneySaved == UNDEFINED_INT) moneySaved = NO_MONEY;
     	String moneyIncrement = prefs.getString("moneyIncrement", UNDEFINED_STRING);
-		preferencesEditor.putInt("savedMoneyAmount", totalSum+integerize(moneyIncrement));
+		preferencesEditor.putInt("savedMoneyAmount", moneySaved+integerize(moneyIncrement));
 		preferencesEditor.apply();
 		refreshMoneySavedDisplayer(moneySavedDisplayer);
     }
@@ -91,7 +93,7 @@ public class CrapifyActivity extends Activity {
     }
 
     private void resetAmountOfMoneySaved(Editor preferencesEditor) {
-    	preferencesEditor.putInt("savedMoneyAmount", 0);
+    	preferencesEditor.putInt("savedMoneyAmount", NO_MONEY);
     	preferencesEditor.apply();
     }
     
