@@ -29,7 +29,7 @@ public class CrapifyActivity extends Activity {
     	TextView moneySavedDisplayer = (TextView)findViewById(R.id.amountOfMoneyHome);
     	prefs = PreferenceManager.getDefaultSharedPreferences(this);
     	initializeMoneyIncrement();
-    	setAmountOfMoneySavedOnMainScreen(moneySavedDisplayer);
+    	initializeAmountOfMoneySavedOnMainScreen(moneySavedDisplayer);
     }
 
     private void initializeMoneyIncrement() {
@@ -41,11 +41,11 @@ public class CrapifyActivity extends Activity {
     	}
     }
     
-	private void setAmountOfMoneySavedOnMainScreen(TextView moneySavedDisplayer) {
+	private void initializeAmountOfMoneySavedOnMainScreen(TextView moneySavedDisplayer) {
 		String textSumOfMoney;
-		int totalSum = prefs.getInt("savedMoneyAmount", UNDEFINED_INT);
-    	if (totalSum == UNDEFINED_INT) textSumOfMoney = "You have not started insulting yet!";
-    	else textSumOfMoney = Integer.toString(totalSum)+" €";
+		int moneySaved = prefs.getInt("savedMoneyAmount", UNDEFINED_INT);
+    	if (moneySaved == UNDEFINED_INT) textSumOfMoney = "You have not started insulting yet!";
+    	else textSumOfMoney = Integer.toString(moneySaved)+" €";
     	moneySavedDisplayer.setText(textSumOfMoney);
 	}
 
