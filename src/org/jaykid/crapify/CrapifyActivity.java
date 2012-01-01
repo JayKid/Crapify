@@ -1,9 +1,12 @@
 package org.jaykid.crapify;
 
+import java.util.Random;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -35,10 +38,10 @@ public class CrapifyActivity extends Activity {
     		@Override
     	    public boolean onTouch(View v, MotionEvent event) {
     	        if (event.getAction() == MotionEvent.ACTION_DOWN ) {
-    	        	
     	        	Editor preferencesEditor = prefs.edit();
     	        	TextView moneySavedDisplayer = (TextView)findViewById(R.id.amountOfMoneyHome);
     	        	prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+    	        	
     	        	int moneySaved = prefs.getInt("savedMoneyAmount", UNDEFINED_INT);
     	        	if (moneySaved == UNDEFINED_INT) moneySaved = NO_MONEY;
     	        	String moneyIncrement = prefs.getString("moneyIncrement", UNDEFINED_STRING);
@@ -47,16 +50,15 @@ public class CrapifyActivity extends Activity {
     	    		refreshMoneySavedDisplayer(moneySavedDisplayer);
     	        	
     	    		crapButton.setImageResource(R.drawable.button_pressed);
+    	    		
+	            	playRandomSound();
     	        }
     	         else if (event.getAction() == MotionEvent.ACTION_UP ) {
     	        	 crapButton.setImageResource(R.drawable.button_normal);
     	        }
-
     	        return false;
     	    }
-
     	});
-        
     }
     
     private void initializeConfig() {
@@ -82,19 +84,6 @@ public class CrapifyActivity extends Activity {
     	else textSumOfMoney = Integer.toString(moneySaved)+" €";
     	moneySavedDisplayer.setText(textSumOfMoney);
 	}
-
-    
-    public void onICrappedClick(View button) {
-    	Editor preferencesEditor = prefs.edit();
-    	TextView moneySavedDisplayer = (TextView)findViewById(R.id.amountOfMoneyHome);
-    	prefs = PreferenceManager.getDefaultSharedPreferences(this);
-    	int moneySaved = prefs.getInt("savedMoneyAmount", UNDEFINED_INT);
-    	if (moneySaved == UNDEFINED_INT) moneySaved = NO_MONEY;
-    	String moneyIncrement = prefs.getString("moneyIncrement", UNDEFINED_STRING);
-		preferencesEditor.putInt("savedMoneyAmount", moneySaved+integerize(moneyIncrement));
-		preferencesEditor.apply();
-		refreshMoneySavedDisplayer(moneySavedDisplayer);
-    }
 
 	private int integerize(String moneyIncrement) {
 		return Integer.parseInt(moneyIncrement);
@@ -135,5 +124,21 @@ public class CrapifyActivity extends Activity {
     	int moneySaved = prefs.getInt("savedMoneyAmount", UNDEFINED_INT);
 		moneySavedDisplayer.setText(Integer.toString(moneySaved)+" €");
 	}
+
+	private void playRandomSound() {
+		new Thread(new Runnable() {
+		    public void run() {
+		    	int sound = getRandomSound();
+				MediaPlayer mp = MediaPlayer.create(getApplicationContext(), sound);   
+		        mp.start();
+		    }
+		  }).start();
+	}
 	
+	private int getRandomSound() {
+		int sounds[] = {R.raw.smb3_1_up,R.raw.smb3_fireball,R.raw.smb3_powerup,R.raw.smw_coin,R.raw.smw_mushroom,R.raw.smw_yoshi};
+		Random generator = new Random();
+		int sound = sounds[generator.nextInt(6)];
+		return sound;
+	}
 }
